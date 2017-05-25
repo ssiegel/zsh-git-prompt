@@ -7,10 +7,10 @@ prehash = ':'
 from subprocess import Popen, PIPE
 
 import sys
-gitsym = Popen(['git', 'symbolic-ref', 'HEAD'], stdout=PIPE, stderr=PIPE)
+gitsym = Popen(['git', 'symbolic-ref', '--quiet', 'HEAD'], stdout=PIPE, stderr=PIPE)
 branch, error = gitsym.communicate()
 
-if gitsym.returncode != 0:
+if gitsym.returncode not in [0, 1]:
     sys.exit(0)
 
 branch = branch.decode("utf-8").strip()[11:]
